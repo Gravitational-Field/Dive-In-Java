@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>06_IDEA2018之其它配置</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h1>IDEA2018 之 其它常用配置</h1>
+<hr />
+<blockquote>
+<p>作者：康哥</p>
+<p>时间：2018-7-10</p>
+</blockquote>
+<hr />
+<h2>IDEA其它常用配置</h2>
+<h3>设置界面目录说明</h3>
+<ul>
+<li>
+<p>进入设置Settings界面，三种方式进入：</p>
+<ul>
+<li>快捷键：Ctrl + Alt + S</li>
+<li>依次点击菜单栏：File--Settings</li>
+<li>点击工具栏图标</li>
+</ul>
+<p><img src="https://i.imgur.com/FHGzTEF.png" /></p>
+<p><img src="https://i.imgur.com/UWLi4LY.png" /></p>
+</li>
+</ul>
+<h3>主题设置</h3>
+<ul>
+<li>选择Appearance &amp; Behavior---Apperatance</li>
+<li>
+<p>这里默认提供了三套主题：IntelliJ，Darcula，Windows。这里可以根据自己的喜
+好进行选择</p>
+<p><img src="https://i.imgur.com/bsnQTfg.png" /></p>
+</li>
+<li>
+<p>设置窗体字体、大小写主题（可忽略）</p>
+<p><img src="https://i.imgur.com/dbgyPXu.png" /></p>
+</li>
+<li>
+<p>设置编辑区主题(IDEA 默认提供了两个编辑区主题，可以通过如下的方式进行选择)（可忽略）</p>
+<p><img src="https://i.imgur.com/IdDMcWr.png" /></p>
+<ul>
+<li>
+<p>如果想要更多的主题效果的话，可以去网上下载，导入即可</p>
+<ul>
+<li>导入方式1：file  –&gt; import setttings  –&gt;  选中下载的主题 jar 文件  –&gt;  一路确认  –&gt;  重启。重启以后，新主题会自动启用</li>
+<li>
+<p>导入方式2：参考下图：</p>
+<p><img src="https://i.imgur.com/GTJNE3G.png" /></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>可以通过插件更换主题</p>
+<ul>
+<li>
+<p>点击按钮，在联网环境下搜索如下的插件-安装-重启 IDEA 即可</p>
+<p><img src="https://i.imgur.com/rtF6dBu.png" /></p>
+<p><img src="https://i.imgur.com/Z6NtZRv.png" /></p>
+</li>
+<li>
+<p>如果对安装的主题插件不满意，还可以找到此插件，进行卸载，重启IDEA即可</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3>设置鼠标滚轮修改字体大小(可忽略)</h3>
+<ul>
+<li>
+<p>勾选此设置后，增加Ctrl + 鼠标滚轮，来控制代码字体大小显示</p>
+<p><img src="https://i.imgur.com/vcvunkW.png" /></p>
+</li>
+</ul>
+<h3>设置鼠标悬浮提示</h3>
+<ul>
+<li>
+<p>设置鼠标悬浮提示</p>
+<p><img src="https://i.imgur.com/zA8YvtZ.png" /></p>
+<p><img src="https://i.imgur.com/0bDfyAP.png" /></p>
+</li>
+</ul>
+<h3>设置自动导包功能</h3>
+<ul>
+<li>Add unambiguous imports on the fly：自动导入不明确的结构</li>
+<li>
+<p>Optimize imports on the fly：自动帮我们优化导入的包</p>
+<p><img src="https://i.imgur.com/2lDWfsr.png" /></p>
+</li>
+</ul>
+<h3>设置显示行号和方法间的分隔符</h3>
+<ul>
+<li>Show line numbers：显示行数</li>
+<li>
+<p>Show method separators： 显示方法分隔线</p>
+<p><img src="https://i.imgur.com/wmCpB27.png" /></p>
+<p><img src="https://i.imgur.com/wlJyeEe.png" /></p>
+</li>
+</ul>
+<h3>忽略大小写提示</h3>
+<ul>
+<li>
+<p>IDEA在进行代码编写提示的时候，是默认区分字母的大小写的，如果想不区分大小写的话，如下改为None即可</p>
+<p><img src="https://i.imgur.com/x9xkJGW.png" /></p>
+</li>
+</ul>
+<h3>设置取消单行显示tabs</h3>
+<ul>
+<li>
+<p>IDEA默认如果打开的文件过多，头部的tab会自动隐藏，不方便开发查看，并且是单行显示，我们可以取消单行，建议多行显示，方便调试查看</p>
+<p><img src="https://i.imgur.com/onjkwCi.png" /></p>
+</li>
+</ul>
+<h3>设置默认的字体、大小、行间距等</h3>
+<ul>
+<li>
+<p>设置默认的字体、大小、行间距等</p>
+<p><img src="https://i.imgur.com/ga2PzmV.png" /></p>
+</li>
+</ul>
+<h3>其它字体设置</h3>
+<ul>
+<li>
+<p>如果当前主题不希望使用默认字体、字体大小、字体行间距，还可以单独设置</p>
+<p><img src="https://i.imgur.com/dOBYiE9.png" /></p>
+</li>
+<li>
+<p>控制台字体样式设置</p>
+<p><img src="https://i.imgur.com/NCCVGJk.png" /></p>
+</li>
+</ul>
+<h3>修改代码中注释的字体颜色</h3>
+<ul>
+<li>Doc Comment-Text：修改文档注释的字体颜色</li>
+<li>Block comment：修改多行注释的字体颜色</li>
+<li>
+<p>Line comment：修改当行注释的字体颜色</p>
+<p><img src="https://i.imgur.com/QI8YZ7n.png" /></p>
+</li>
+</ul>
+<h3>设置超过指定 import 个数，改为* (可忽略)</h3>
+<ul>
+<li>
+<p>设置超过指定 import 个数，改为*</p>
+<p><img src="https://i.imgur.com/mWFrRax.png" /></p>
+</li>
+</ul>
+<h3>设置项目文件编码</h3>
+<ul>
+<li>
+<p>Transparent native-to-ascii conversion  主要用于转换  ascii码，一般都要勾选，不然  Properties  文件中的注释显示的都不会是中文</p>
+<p><img src="https://i.imgur.com/1m6K9Ox.png" /></p>
+</li>
+</ul>
+<h3>设置当前源文件的编码(可忽略)</h3>
+<ul>
+<li>
+<p>对单独文件的编码修改还可以点击右下角的编码设置区。如果代码内容中包含中
+文，则会弹出如下的操作选择：</p>
+<ul>
+<li>Reload  表示使用新编码重新加载，新编码不会保存到文件中，重新打开此文件，旧编码是什么依旧还是什么</li>
+<li>Convert  表示使用新编码进行转换，新编码会保存到文件中，重新打开此文件，新编码是什么则是什么</li>
+<li>含有中文的代码文件，Convert  之后可能会使中文变成乱码，所以在转换成请做好备份，不然可能出现转换过程变成乱码，无法还原</li>
+</ul>
+<p><img src="https://i.imgur.com/cKlBYYi.png" /></p>
+<p><img src="https://i.imgur.com/6U50elk.png" /></p>
+</li>
+</ul>
+<h3>设置自动编译</h3>
+<ul>
+<li>
+<p>IDEA默认状态为不自动编译状态，Eclipse默认为自动编译，以下为开启IDEA的自动编译功能</p>
+<p><img src="https://i.imgur.com/fuoA7WJ.png" /></p>
+</li>
+</ul>
+<h3>省电模式</h3>
+<ul>
+<li>
+<p>IDEA提供了‘省电模式’的状态，开启这种模式之后，IDEA会关掉代码检查和代码提示等功能。所以一般也可认为这是一种阅读模式，如果你在开发过程中遇到突然代码文件不能进行检查和提示， 可以来看看这里是否有开启该功能</p>
+<p><img src="https://i.imgur.com/zuti5dD.png" /></p>
+</li>
+</ul>
+<h3>设置代码水平或垂直显示</h3>
+<ul>
+<li>
+<p>在写代码时，有时为了方便，需要将代码进行水平或者左右展示，则需要点击类名，鼠标右键，进行如下设置：</p>
+<p><img src="https://i.imgur.com/afigLfB.png" /></p>
+</li>
+</ul>
+<h3>快捷键(Keymap)设置</h3>
+<ul>
+<li>
+<p>可以延续Eclipse的快捷键，设置如下:</p>
+<ul>
+<li>注意：并不完全一样，个别快捷键冲突</li>
+</ul>
+<p><img src="https://i.imgur.com/aIzhalo.png" /></p>
+</li>
+<li>
+<p>通过快捷键功能修改快捷键设置</p>
+<p><img src="https://i.imgur.com/XkCL6B0.png" /></p>
+</li>
+<li>
+<p>通过指定快捷键，查看或修改其功能</p>
+<p><img src="https://i.imgur.com/95800t3.png" /></p>
+</li>
+<li>
+<p>设置快捷键</p>
+<p><img src="https://i.imgur.com/EO76ynR.png" /></p>
+</li>
+</ul>
+<h2>常用模板设置</h2>
+<h3>Live Templates(实时代码模板)功能介绍(可以自定义)</h3>
+<ul>
+<li>
+<p>它的原理就是配置一些常用代码字母缩写，在输入简写时可以出现你预定义的固定模式的代码，使得开发效率大大提高， 同时也可以增加个性化；</p>
+<ul>
+<li>
+<p>例如：在 Java 中输入 sout 会出现 System.out.println();</p>
+</li>
+<li>
+<p>官网：<a href="https://www.jetbrains.com/help/idea/using-live-templates.html">https://www.jetbrains.com/help/idea/using-live-templates.html</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p>模板内容</p>
+<p><img src="https://i.imgur.com/apCWc9D.png" /></p>
+</li>
+</ul>
+<h3>Postfix Completion 已经存在的功能模板(不能自定义)</h3>
+<ul>
+<li>
+<p>已有的常用模板</p>
+<p><img src="https://i.imgur.com/lMSCusK.png" /></p>
+</li>
+</ul>
+<h3>模板示例</h3>
+<ul>
+<li>
+<p>psvm：main方法</p>
+</li>
+<li>
+<p>sout：打印行</p>
+<ul>
+<li>System.out.println()
+-soutp：</li>
+<li>System.out.println(&quot;方法形参名  = &quot; +  形参名);</li>
+</ul>
+</li>
+<li>
+soutv
+<ul>
+<li>System.out.println(&quot;变量名  = &quot; +  变量)；</li>
+</ul>
+</li>
+<li>
+soutm
+<ul>
+<li>System.out.println(&quot;当前类名.当前方法&quot;)；</li>
+</ul>
+</li>
+<li>
+<p>“abc”.sout</p>
+<ul>
+<li>System.out.println(&quot;abc&quot;);</li>
+</ul>
+</li>
+<li>
+<p>fori：for 循环</p>
+</li>
+<li>iter：增强 for 循环</li>
+<li>itar：普通 for 循环</li>
+<li>
+<p>list.for :  可生成集合 list 的 for 循环</p>
+<pre><code>List&lt;String&gt; list = new ArrayList&lt;String&gt;();
+输入: list.for  即可输出
+for(String s:list){
+}
+
+
+- list.fori
+- list.forr
+</code></pre>
+
+</li>
+<li>
+<p>ifn：可生成  if(xxx = null)</p>
+<pre><code>inn：可生成 if(xxx != null)  或  xxx.nn  或  xxx.null
+</code></pre>
+
+</li>
+<li>
+<p>prsf：private static final</p>
+<pre><code>psfi：可生成  public static final int
+psfs：可生成  public static final String
+</code></pre>
+
+</li>
+</ul>
+<h3>自定义模板</h3>
+<p>IDEA提供了很多现成的Templates，但你也可以根据自己的需要创建新的Template。</p>
+<ul>
+<li>
+<p>先定义一个模板的组</p>
+<p><img src="https://i.imgur.com/nIcbESW.png" /></p>
+</li>
+<li>
+<p>选中自定义的模板组，点击”+”来定义模板</p>
+<p><img src="https://i.imgur.com/O7m8xGW.png" /></p>
+</li>
+<li>
+<p>定义自己的快捷提示和具体模板、描述等信息</p>
+<p><img src="https://i.imgur.com/pcp3kIp.png" /></p>
+</li>
+<li>
+<p>定义模板应用范围：</p>
+<p><img src="https://i.imgur.com/8QGdB5x.png" /></p>
+</li>
+</ul>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
