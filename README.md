@@ -23,7 +23,7 @@ the rode of software development.
 
 ![Java技术路线](https://cdn.jsdelivr.net/gh/lizhangjie316/img/2020/20200725081514.jpg)
 
-![g~](C:\Users\Keen\Desktop\JavaT�z_�Sf[`N~-ؚn\Java�b/g~.jpg)
+
 
 # 参考文献
 
