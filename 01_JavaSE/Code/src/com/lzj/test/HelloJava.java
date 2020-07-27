@@ -12,7 +12,7 @@ public class HelloJava {
     * @Param
     * @Return 
     */
-    public static void main(String[] args) {
+    public static void main(MyString[] args) {
         System.out.println("Hello Java!");
     }
 }

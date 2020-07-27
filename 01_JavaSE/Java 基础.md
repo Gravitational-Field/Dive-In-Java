@@ -4,6 +4,51 @@
 
 ---
 
+<!-- GFM-TOC -->
+
+* [一、数据类型](#一数据类型)
+  * [基本类型](#基本类型)
+  * [包装类型](#包装类型)
+  * [缓存池](#缓存池)
+* [二、String](#二string)
+  * [概览](#概览)
+  * [不可变的好处](#不可变的好处)
+  * [String, StringBuffer and StringBuilder](#string,-stringbuffer-and-stringbuilder)
+  * [String Pool](#string-pool)
+  * [new String("abc")](#new-string"abc")
+* [三、运算](#三运算)
+  * [参数传递](#参数传递)
+  * [float 与 double](#float-与-double)
+  * [隐式类型转换](#隐式类型转换)
+  * [switch](#switch)
+* [四、关键字](#四关键字)
+  * [final](#final)
+  * [static](#static)
+* [五、Object 通用方法](#五object-通用方法)
+  * [概览](#概览)
+  * [equals()](#equals)
+  * [hashCode()](#hashcode)
+  * [toString()](#tostring)
+  * [clone()](#clone)
+* [六、继承](#六继承)
+  * [访问权限](#访问权限)
+  * [抽象类与接口](#抽象类与接口)
+  * [super](#super)
+  * [重写与重载](#重写与重载)
+* [七、反射](#七反射)
+* [八、异常](#八异常)
+* [九、泛型](#九泛型)
+* [十、注解](#十注解)
+* [十一、特性](#十一特性)
+  * [Java 各版本的新特性](#java-各版本的新特性)
+  * [Java 与 C++ 的区别](#java-与-c-的区别)
+  * [JRE or JDK](#jre-or-jdk)
+* [参考资料](#参考资料)
+  <!-- GFM-TOC -->
+
+
+
+---
 
 # 一、数据类型
 
@@ -24,6 +69,8 @@ boolean 只有两个值：true、false，可以使用 1 bit 来存储，但是�
 - [The Java® Virtual Machine Specification](https://docs.oracle.com/javase/specs/jvms/se8/jvms8.pdf)
 
 ## 包装类型
+
+//TODO:包装类源码剖析
 
 基本类型都有对应的包装类型，基本类型与其对应的包装类型之间的赋值使用自动装箱与拆箱完成。
 
@@ -130,6 +177,8 @@ System.out.println(m == n); // true
 
 # 二、String
 
+//TODO: String源码剖析。
+
 ## 概览
 
 String 被声明为 final，因此它不可被继承。(Integer 等包装类也不能被继承）
@@ -143,6 +192,15 @@ public final class String
     private final char value[];
 }
 ```
+
+> //TODO：final修饰符补充：[java中String的不变性](https://www.cnblogs.com/DDgougou/p/12588136.html)
+>
+> - final修饰类，表示该类不能被继承，俗称断子绝孙类，该类的所有方法自动地成为final方法
+> - final修饰方法，表示子类不可重写该方法
+> - final修饰基本数据类型变量，表示该变量为常量，值不能再修改
+> - final修饰引用类型变量，表示该引用在构造对象之后不能指向其他的对象，但该引用指向的对象的状态可以改变
+>
+> 　　这里需要说明的是：当使用final修饰基本类型变量时，不能对基本类型变量重新赋值，因此基本类型变量不能被改变。但对于引用类型变量而言，它保存的仅仅是一个引用，final只保证这个引用变量所引用的地址不会改变，即一直引用同一个对象，但这个对象完全可以发生改变。例如某个指向数组的final引用，它必须从此至终指向初始化时指向的数组，但是这个数组的内容完全可以改变。
 
 在 Java 9 之后，String 类的实现改用 byte 数组存储字符串，同时使用 `coder` 来标识使用了哪种编码。
 
@@ -179,13 +237,15 @@ String 经常作为参数，String 不可变性可以保证参数不可变。例
 
 String 不可变性天生具备线程安全，可以在多个线程中安全地使用。
 
+> 线程安全是多线程编程时的计算机程序代码中的一个概念。在拥有共享数据的多条线程并行执行的程序中，线程安全的代码会通过同步机制保证各个线程都可以正常且正确的执行，不会出现数据污染等意外情况。
+
 [Program Creek : Why String is immutable in Java?](https://www.programcreek.com/2013/04/why-string-is-immutable-in-java/)
 
 ## String, StringBuffer and StringBuilder
 
 **1. 可变性**  
 
-- String 不可变
+- String 不可变（String中的字符数组的引用不可变）
 - StringBuffer 和 StringBuilder 可变
 
 **2. 线程安全**  
@@ -228,7 +288,7 @@ System.out.println(s5 == s6);  // true
 
 ## new String("abc")
 
-使用这种方式一共会创建两个字符串对象（前提是 String Pool 中还没有 "abc" 字符串对象）。
+使用这种方式一共会创建两个字符串对象：一个在字符串常量池中，一个是new出来的常量对象。（前提是 String Pool 中还没有 "abc" 字符串对象）。
 
 - "abc" 属于字符串字面量，因此编译时期会在 String Pool 中创建一个字符串对象，指向这个 "abc" 字符串字面量；
 - 而使用 new 的方式会在堆中创建一个字符串对象。
