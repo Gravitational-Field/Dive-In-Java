@@ -1132,6 +1132,7 @@ public class Person{
 ```
 作用：
 	判断两个引用所指向的内存空间中的值是否相同
+	==  判断基本数据类型的值是否相等；判断两个引用指向是否是同一对象；
 编写equals方法原则：
 ```
 
@@ -1243,3 +1244,108 @@ boolean     java.lang.Boolean
     int sum = i1.intValue()+i2.intValue();
 ```
 
+- **JDK1.5版本加入了 自动装箱和拆箱操作**
+
+```
+在integer的自动装箱操作中, 加入了一个知名的设计模式, 叫享元设计模式 !  其他的包装类是否有享元？
+
+将-128 - 127的返回的数据, 进行了重复利用 !
+```
+
+- **包装类常用属性**
+
+```
+MAX_VALUE   :   全局常量, 表示指定包装类的最大值。
+MIN_VALUE   :   全局常量, 表示指定包装了的最小值。
+```
+
+- **包装类常用方法**
+
+```
+将字符串数据, 转换为指定的数据类型 !
+
+-   方式1.    包装类.parseXXX()
+        例如:
+        int num = Integer.parseInt(String 文本);
+
+-   方式2.    Integer num = new Integer(String 文本);
+
+注意:
+    在转换时, 字符串的格式必须是指定类型的,  例如: 不能将"哈哈哈"转换为int类型!  
+
+    转换时数据类型不匹配会抛出错误:
+    NumberFormatException   数字格式化异常
+```
+
+- **面试题**
+
+```java
+Integer i1 = 127;
+Integer i2 = 127;
+System.out.println(i1==i2); //数据范围-128 - 127 结果为: true
+Integer i1 = 128;
+Integer i2 = 128;
+System.out.println(i1==i2); // false
+```
+
+## 2.24 String类
+
+```
+-   String的值 一经确定 不可更改。
+    在java 8中，String类的内部实现, 是通过 final char[] 来完成的。 又因为数组的长度一经确定无法改变。所以字符串的值一旦确定, 不可更改。
+    final保证这个引用变量所引用的地址不会改变，即一直引用同一个对象，但这个String对象str完全可以发生改变。
+
+    在字符串拼接操作时, 系统会舍弃原有字符串 , 开辟新的空间存储拼接的结果, 所以会产生大量的系统垃圾, 建议后期进行开发时, 尽可能少的拼接字符串 !
+
+-   字符串常量池（采用享元设计模式-第二个地方）
+    因为我们经常在程序总编写字符串, 且很多时候, 在一个程序中会出现多个相同的字符串 , 官方为了优化这种操作, 加入了字符串常量池 !
+    如果程序中使用了一个字符串, 则值会被存储到常量池中, 下次使用时 会自动去常量池中寻找 , 如果存在则重复使用, 不存在则创建新的字符串 并存储到常量池中 !
+
+    注意:  通过new 的到的字符串, 一定是新开辟的内存空间 !
+
+注意: 我们称""引住的部分为字符串字面量 , 一段字符串的字面量,就是一个匿名的String对象 !     
+```
+
+在 Java 8 中，String 内部使用 char 数组存储数据。
+
+```java
+public final class String
+    implements java.io.Serializable, Comparable<String>, CharSequence {
+    /** The value is used for character storage. */
+    private final char value[];
+}
+```
+
+源码解析之为什么说String的之一经确定不可修改？
+
+有人会问：
+
+```java
+String str = "abc";
+str = "bcd";
+System.out.println(str);  //输出bcd
+```
+
+输出bcd不是修改了str的值了么，这不就可变了么？
+
+我们知道“abc”与“bcd”为两个字符串常量，分别存储在字符串常量池的两个位置。
+
+又根据源码 final char value[]; 我们知道，字符串由字符数组来存储，final修饰的引用类型变量value不可以更改引用，也就是不可以更改指向，但这个引用所指向的数组内容可以改变，且因为是不可变长数组，故：
+
+```java
+final char[] value = {'a', 'b', 'c'};
+value[0] = 'd';
+System.out.println(value);  //输出dbc
+```
+
+且无法向数组内添加或删除新的元素。这样的话指向就发生了改变。
+
+![image-20200728200146574](https://cdn.jsdelivr.net/gh/lizhangjie316/img/2020/20200728203355.png)
+
+实际上我们要认清一点，我们所说的String字符串并非是指str，而是“abc”与“bcd”，它们一经创建如图：
+
+![image-20200728201543980](https://cdn.jsdelivr.net/gh/lizhangjie316/img/2020/20200728201544.png)
+
+**PS：**jdk1.7 及之后常量池已经从方法区中移了出来，在堆中开辟了一块区域存放运行时常量池，JDK1.8开始，取消了方法区，而使用直接位于内存的元空间。
+
+​		一个字符串常量对应一个匿名的字符串对象，即堆中的value所在。String 类型的str，可以改变其内的引用，但“abc”与“bcd”一经确定，就被固定不可变了，即字符串的值一经确定不可更改。str只是对象变量名。
