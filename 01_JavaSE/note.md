@@ -1,4 +1,4 @@
-[TOC]
+
 
 ---
 
@@ -11,7 +11,7 @@
   ### 1.1.1 基本数据类型
 
 ​         byte、short、int、long、float、double、boolean、char
-​          1个   2个   4个   8个   4个     8个      1个    2个
+​          1个     2个       4个   8个       4个       8个          1个           2个
 
   在Java语言中用于描述整数数据的类型有：byte、short、int、long，推荐使用int类型
    其中byte类型在内存空间中占1个字节，表示的范围是：-2^7 ~ 2^7-1.
@@ -314,6 +314,53 @@ PS：由于float类型和double类型都不能实现精确运算，因此在以�
         [70 ~ 79]    等级C     /10     7
         [60 ~ 69]    等级D     /10     6
         [0 ~ 59]     等级E     default:
+  
+  ```java
+  public static void main(String[] args) { // if-else if-else
+          while (true){
+              System.out.println("请输入该生成绩：");
+              Scanner sc = new Scanner(System.in);
+  
+              int point = sc.nextInt();
+              int num = point/10;
+              if (num>=9){
+                  System.out.println("A");
+              }else if (num >=8) {
+                  System.out.println("B");
+              } else if (num >=7) {
+                  System.out.println("C");
+              }else if (num >=6) {
+                  System.out.println("D");
+              }else{
+                  System.out.println("E");
+              }
+          }
+      }
+  ```
+  
+  ```java
+  public static void main(String[] args) {  // switch-case
+          while (true){
+              System.out.println("请输入该生成绩：");
+              Scanner sc = new Scanner(System.in);
+  
+              int point = sc.nextInt();
+              int num = point/10;
+              switch (num){
+                  case 10:
+                  case 9: System.out.println("A");break;
+                  case 8: System.out.println("B");break;
+                  case 7: System.out.println("C");break;
+                  case 6: System.out.println("D");break;
+                  default: System.out.println("E");
+  
+              }
+          }
+      }
+  
+  ```
+  
+  
 
 ### 1.3.3 循环结构
 
@@ -333,32 +380,166 @@ PS：由于float类型和double类型都不能实现精确运算，因此在以�
 
 练习：
 
-- 求用户输入四个整数中的最大值并打印（参考PPT）。
-
-- 使用for循环打印1 ~ 100之间的所有奇数（参考PPT）。 
-
-- 使用for循环计算1 ~ 10000之间的累加和并打印（参考PPT）。    
-
 - 使用for循环打印三位数中的所有水仙花数(参考PPT)。
 
-- 正整数的逆序输出。
+    ```java
+    import static java.lang.Math.pow;
+    public static void main(String[] args) {
+            //水仙花数：水仙花数是指一个3位数，它的每个位上的数字的3次幂之和等于它本身
+            int first;
+            int second;
+            int third;
+            int num;
+            for (int i = 100; i < 1000; i++) {
+                first = i/100;
+                second = i/10%10;
+                third =i%10;
+                num = (int) (pow(first,3)+pow(second,3)+pow(third,3));
+                if (i == num) {
+                    System.out.print(num+" ");   //153 370 371 407 
+                }
+            }
+        }
+    ```
 
-- ```
+    
+
+- ```java
     使用双重for循环打印以下图形：
         *
         **
         ***
         ****
         *****
+     //控制行
+     for (int i = 0; i < 5; i++) {
+     	//控制列
+     	for (int j = 0; j < 5; j++) {
+     		if(j<=i){
+      			System.out.print("*");
+ 		}
+          	}
+          	System.out.println(); //换行
+     }  
+      
         
     进阶版为：打印一个菱形，
+    //打印一个菱形
+      *
+     ***
+    *****
+     ***
+      *
+    //控制行
+    for (int i=1; i<=2; i++) {
+       	for(int j=1; j<=3-i; j++){
+    		System.out.print(" ");
+        }
+        for(int j=1; j<=2*i-1; j++){
+            System.out.print("*");
+        }
+        System.out.println();
+    }
+    
+    for(int i=3; i>=1; i--){
+        for(int j=1; j<=3-i; j++){
+            System.out.print(" ");
+        }
+        for(int j=1; j<=2*i-1; j++){
+            System.out.print("*");
+        }
+        System.out.println();
+    }
     
     
-    再进阶版为打印一个内空的菱形，并封装。
-  ```
-
+    打印一个间隔型菱形：
+      *
+     * *
+    * * *
+     * *
+      *
+    for (int i=1; i<=2; i++) {
+        for(int j=1; j<=3-i; j++){
+            System.out.print(" ");
+        }
+        for(int j=1; j<=2*i-1; j++){
+            if(j%2 == 0){
+                System.out.print(" ");
+                continue;
+            }
+            System.out.print("*");
+        }
+        System.out.println();
+    }
+    
+    for(int i=3; i>=1; i--){
+        for(int j=1; j<=3-i; j++){
+            System.out.print(" ");
+        }
+        for(int j=1; j<=2*i-1; j++){
+            if(j%2 == 0){
+                System.out.print(" ");
+                continue;
+            }
+            System.out.print("*");
+        }
+        System.out.println();
+    }
+    ```
+    
 - 打印99乘法表
+
+```java
+//打印九九乘法表
+for (int i = 1; i < 10; i++) {
+    for (int j = 1; j <= i; j++) {
+        System.out.print(j+"x"+i+"="+(i*j)+" ");  //三种格式化输出
+        //System.out.printf("%dx%d=%d"+" ",j,i,i*j);
+        //System.out.format("%dx%d=%d"+" ",j,i,i*j);
+    }
+    System.out.println();
+}
+```
+
 - 冒泡排序
+
+```java
+int []arr = {8,10,1,5,7,3,2,6,9};
+//冒泡排序
+int tmp = 0;
+for (int i = 0; i < arr.length; i++) {
+//每轮冒上去一个最大的值。
+    for (int j = 0; j < arr.length-i-1; j++) {
+    //每次从头到已排好的前一个
+        if (arr[j] > arr[j+1]) {
+            //前边比后边大,则交换
+            tmp = arr[j];
+            arr[j] = arr[j+1];
+            arr[j+1] = tmp;
+        }
+    }
+}
+
+for (int num:arr) {
+	System.out.print(num+" ");
+}
+```
+
+
+
+## 1.4 输入与输出  todo
+
+### 1.4.1 输入原则
+
+
+
+### 1.4.2 简单输出
+
+
+
+### 1.4.3 格式化输出
+
+
 
 
 
@@ -441,7 +622,7 @@ PS：由于float类型和double类型都不能实现精确运算，因此在以�
 
 ### 2.2.1 语法格式
 
-```
+```java
    class 类名{
        返回值类型 成员方法名(形参列表){
            成员方法体;
@@ -528,18 +709,36 @@ PS：由于float类型和double类型都不能实现精确运算，因此在以�
   (3)若递归影响到程序的执行性能，则应该使用递推替代之；
 ```
 
+```
+- 递推关系：一个任务如何分解为类似任务与基本任务
+- 结束条件：最后的那个任务完成
+- 执行顺序演进
+```
+
 ```java
-// 斐波那切数列递推与递归实现
-int fib(int n){
-    int fn   = 1;
-    int fn_1 = 0;
-    for(int i=0; i<n; i++) {
-       int t = fn
-       fn    = fn + fn_1;
-       fn_1  = t;
+// 斐波那切数列特点：
+1月    2月    3月    4月    5月    6月    7月    8月    9月    10月    11月    12月   
+ 1      1     2      3     5      8      13    21    34     55      89     144     
+//递推与递归实现
+private static int fib(int n) {
+    int f1_pre = 0;
+    int f1 = 1;
+    int tmp_sum = 0;
+    //int sum_pre = 0;
+    //每次迭代，进行前两项的求和
+    for (int i = 0; i < n-1; i++) { //n=1：不进行计算， n=2：进行一次计算。 第n次进行n-1次计算。
+        // 先求两者之和，将后者存在pre上，并将和存在f1上，f1作为结果输出。
+        tmp_sum = f1_pre+f1;
+        f1_pre = f1;
+        f1 = tmp_sum;
     }
-    return fn;
+
+    return f1;
 }
+
+//递归实现
+规律：递推公式：第n项 = n-1项及n-2项之和。
+结束条件：从后到前计算到最初的两项即截止。
 
 int fib(n){
     return n < 2 ? 1 : fib(n-1)+f(n-2);
@@ -646,6 +845,63 @@ this基本概念
 
 练习
 
+```java
+public class Person {
+
+    //1. 私有化成员变量
+    private int age;
+    private String name;
+
+    //2. 提供公有的get、set方法
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        if (age < 0) {
+            System.out.println("年龄不合理！");
+        }else {
+            this.age = age;
+        }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    Person(){
+        System.out.println("无参构造方法");
+    }
+    //3. 在构造方法中使用set方法进行合理值的判断
+    Person(int age){
+        setAge(age);
+        System.out.println("age构造方法");
+    }
+    Person(int age, String name){
+        setAge(age);
+        setName(name);
+        System.out.println("age,name构造方法");
+    }
+
+
+    void show(){
+        System.out.println(this.age+" "+this.name);
+    }
+
+
+    public static void main(String[] args) {
+        Person p = new Person(-1,"haha");
+        p.show();  // 年龄不合理！
+				   // age,name构造方法
+				   // 0 haha
+    }
+}
+```
+
 
 
 ## 2.6 static关键字
@@ -665,6 +921,8 @@ this基本概念
        (不能滥用static关键字)
 ```
 
+> 类加载机制：[https://baijiahao.baidu.com/s?id=1636309817155065432&wfr=spider&for=pc](https://baijiahao.baidu.com/s?id=1636309817155065432&wfr=spider&for=pc)
+
 ![image-20200728131127628](https://cdn.jsdelivr.net/gh/lizhangjie316/img/2020/20200728131127.png)
 
 ## 2.7 单例模式实现
@@ -683,11 +941,47 @@ this基本概念
    单例设计模式分为两种：饿汉式 和 懒汉式，在以后的开发中推荐饿汉式。
 ```
 
+```
+每个.java文件中只能有一个public修饰的class
+```
+
+
+
 ![image-20200728131159089](https://cdn.jsdelivr.net/gh/lizhangjie316/img/2020/20200728131159.png)
 
-
-
 练习：构建一个单例类
+
+```java
+public class TestSingleton {  //一个.java文件中仅可以存在一个public修饰的类
+
+    public static void main(String[] args) {
+        Singleton s1 = Singleton.getSingleton();
+        Singleton s2 = Singleton.getSingleton();
+        System.out.println(s1 == s2);
+        //执行私有构造方法
+        //true
+
+    }
+
+}
+
+
+//该类对外提供且只提供一个对象
+class Singleton{
+
+    //1. 私有化构造方法
+    private Singleton(){
+        System.out.println("执行私有构造方法");
+    }
+    //2. 提供本类类型的引用指向本类的对象，使用private static关键字共同修饰
+    private static Singleton singleton = new Singleton();
+    //3. 提供公有的get方法负责将对象返回出去，使用static关键字修饰；
+    public static Singleton getSingleton(){
+        return singleton;
+    }
+
+}
+```
 
 如何能提供且仅能提供有限个对象？
 
@@ -707,6 +1001,12 @@ this基本概念
   (1)子类可以继承父类的成员变量，包括私有成员变量但不能直接访问；
      子类不可以继承父类的构造方法和私有成员方法；
 ```
+
+**Java中的类：**
+
+- 只支持单继承，不支持多继承。
+
+
 
 ## 2.9 super关键字
 
@@ -739,6 +1039,44 @@ this基本概念
    b.要求方法的访问权限不能变小，可以相同或者变大；
    c.要求不能抛出更大的异常(异常机制)；
 ```
+
+```java
+public class Student extends Person{ //练习了继承、关键字、方法的重写
+    private int stu_id;
+
+    Student(){
+        System.out.println("Student()");
+    }
+
+    Student(int age,String name,int stu_id){
+        super(age, name);
+        System.out.println("Student(int age,String name,int stu_id)");
+        setSut_id(stu_id);
+    }
+
+    public int getSut_id() {
+        return stu_id;
+    }
+
+    public void setSut_id(int sut_id) {
+        this.stu_id = sut_id;
+    }
+
+    @Override
+    protected void show(){
+        System.out.print(this+": ");
+        super.show();
+    }
+
+    public static void main(String[] args) {
+        Student student = new Student(18,"xixi",1972);
+        student.show();
+    }
+
+}
+```
+
+
 
 ## 2.11 访问控制
 
@@ -785,7 +1123,7 @@ this基本概念
 
 
 
-## 2.13 对象创建的过程
+## 2.13 对象创建的过程(补充类加载机制)
 
 ```
 (1)单个对象创建的执行过程:
@@ -795,13 +1133,84 @@ this基本概念
     (4)执行构造块可以对成员变量进行赋值；
     (5)执行构造方法体可以对成员变量进行再次赋值；
     (6)此时对象创建完毕，继续向下执行；
+ 显示初始化=> 构造块 => 构造方法体   
+```
 
+ ```java
+public class TestObject {
+	private int cnt = 1;  //在声明成员变量的同时指定初始值  => 显式初始化  (1)
+	
+	{
+		cnt = 2; //构造块  (2)
+	}
+	
+	public TestObject(){
+		cnt = 3; //构造方法体 (3)
+	}
+	
+	public static void main(String[] args) {
+	
+		TestObject to = new TestObject();
+		System.out.print("to.cnt = " + to.cnt); //0  1  2 3
+	}
+}
+ ```
+
+
+ ```
 (2)子类对象创建的执行过程:
     (1)main方法是程序的入口；
     (2)先加载父类再加载子类，因此先执行父类的静态代码块，再执行子类的静态代码块；
     (3)执行父类的构造块和父类的构造方法体，此时父类部分构造完毕；
     (4)执行子类的构造块和子类的构造方法体，此时子类对象构造完毕；
     (5)继续执行后续的代码；
+ ```
+
+```java
+public class TestSuperObject {
+
+	{
+		System.out.println("TestSuperObject类中的构造块");  //(2)    c
+	}
+	
+	static{
+		System.out.println("TestSuperObject类中的静态代码块"); //(1)   a
+	}
+	
+	public TestSuperObject(){
+		System.out.println("TestSuperObject()");  //(3)   d
+	}
+	
+	public static void main(String[] args) {
+		
+		TestSuperObject tso = new TestSuperObject();
+	}
+
+}
+```
+
+```java
+public class TestSubObject extends TestSuperObject {
+
+	{
+		System.out.println("TestSubObject类中的构造块");  //(2)   e
+	}
+	
+	static{
+		System.out.println("TestSubObject类中的静态代码块"); //(1)  b
+	}
+	
+	public TestSubObject(){
+		System.out.println("TestSubObject()");  //(3)  f
+	}
+	
+	public static void main(String[] args) {
+		
+		TestSubObject tso = new TestSubObject();
+
+	}
+
+}
 ```
 
 
@@ -824,14 +1233,17 @@ this基本概念
 (2)语法格式
    父类类型 引用变量名 = new 子类类型();
 如：
-   Animal ad = new Dog();
+   Animal ad = new Dog();  //狗是一种动物，但狗作为动物具有其独特的show方法。
    ad.show();
 解析：
    编译阶段调用父类的show方法，运行阶段调用子类重写以后的show方法。
 
 (3)多态的效果
+- 父类的引用可以直接调用子类的重写的方法；   ** 多态的真正好处
+- 父类引用不能直接调用子类独有的方法；
+- 父类引用可以直接调用父类独有的的方法；
     (1)当父类的引用指向子类的对象时，父类的引用可以直接调用父类独有(子类中没有)的方法；
-    (2)当父类的引用指向子类的对象时，父类的引用不可以直接调用子类独有的方法；    //如父类中无show()，而子类中有show();  父类的引用无法调用子类的show()？？？验证
+    (2)当父类的引用指向子类的对象时，父类的引用不可以直接调用子类独有的方法；
     (3)对于父子类都拥有的非静态成员方法来说，编译阶段调用父类版本，运行阶段调用子类版本    //只有这种情况下，父类指向子类的引用才可以调用子类的show()方法
     (4)对于父子类都拥有的静态方法来说，编译和运行阶段都调用父类版本，与对象无关；
 ```
@@ -854,14 +1266,52 @@ this基本概念
 	instancceof 常用于解决ClassCastException 
 ```
 
+```java
+Person person = new Student(18,"xixi",1972);
+System.out.println(person instanceof Person); //true
+System.out.println(person instanceof Student);  //true
+```
+
+
+
 ## 2.16 抽象类
 
 ```
-在Java中, 使用abstract关键字 修饰的类, 称为抽象类 ! 
-抽象类不能实例化 !  抽象类如果不被继承 , 则没有意义 !  
-抽象类中 非抽象的部分 是抽取出的公共部分 !
+在Java中, 使用abstract关键字 修饰的类, 称为抽象类 !   
+首先它是一个类，除了不能实例化，其它都可以。
+抽象类必须被继承才有意义。抽象类可以继承自另一个抽象类。
+抽象类中 非抽象的部分 是抽取出的公共部分。
 抽象类中, 抽象的方法可以被子类重写,  我们称这种操作叫做抽象方法的 实现 !
 ```
+
+```java
+public abstract class Employee
+{
+   private String name;
+   private String address;
+   private int number;
+   
+   public abstract double computePay();
+   
+   //其余代码
+}
+```
+
+```
+声明抽象方法会造成以下两个结果：
+    如果一个类包含抽象方法，那么该类必须是抽象类。
+    任何子类必须重写父类的抽象方法，或者声明自身为抽象类。
+```
+
+## 抽象类总结
+
+- 抽象类不能被实例化(初学者很容易犯的错)，如果被实例化，就会报错，编译无法通过。只有抽象类的非抽象子类可以创建对象。
+- 抽象类中不一定包含抽象方法，但是有抽象方法的类必定是抽象类。
+- 抽象类中的抽象方法只是声明，不包含方法体，就是不给出方法的具体实现也就是方法的具体功能。
+- 构造方法，类方法（用 static 修饰的方法）, final方法，私有方法不能声明为抽象方法。
+- 抽象类的子类必须给出抽象类中的抽象方法的具体实现，除非该子类也是抽象类。但最终一定要实现。
+
+
 
 - 面试题
 
@@ -872,7 +1322,7 @@ this基本概念
 抽象关键字 abstract 与哪些关键字 不能共存: 
 答:
     private :   私有的方法,  子类无法重写 ! 
-    final   :   final修饰的方法,   不能被重写!
+    final   :   final修饰的方法, 不能被重写!
     static  :   静态的方法, 不依赖于对象! 
 ```
 
@@ -927,9 +1377,7 @@ this基本概念
             public static final int a = 10;
 ```
 
-问题：抽象类与接口的异同？
-
-
+问题：抽象类与接口的异同？ 见question.md
 
 ## 2.19 匿名对象
 
@@ -939,10 +1387,8 @@ this基本概念
 
 格式:
         new 类名();
-
 案例:
         new Util().haha(3000);
-
 匿名对象 只能使用一次, 使用完毕后, 会被GC视为垃圾, 进行回收 !
 ```
 
@@ -1162,7 +1608,7 @@ x.equals(null); // false;
 
     1.  一致性：同一个对象,属性不更改的情况下, hashCode值应该是一致的；
     2.  两个属性完全相同的对象, hashCode值应该一致；
-    3.  hashCode值 ,不是用来判断对象是否相同的依据, hashCode值相同, 对象不一定相等, 
+    3.  hashCode值 ,不是用来判断对象是否相同的依据, hashCode值相同, 对象不一定相等, 因为不同类的实例对象可能会产生相同的hashCode值。
         不过在设计hashCode方法时,我们建议,hashCode值的比较的结果 应与equals比较结果 一致 !
 
 使用：
@@ -1192,7 +1638,7 @@ public class Person implements Cloneable{
 }
 ```
 
-# 2.23 基本数据类型的包装类
+## 2.23 基本数据类型的包装类
 
 ```java
 byte        java.lang.Byte
@@ -1349,3 +1795,50 @@ System.out.println(value);  //输出dbc
 **PS：**jdk1.7 及之后常量池已经从方法区中移了出来，在堆中开辟了一块区域存放运行时常量池，JDK1.8开始，取消了方法区，而使用直接位于内存的元空间。
 
 ​		一个字符串常量对应一个匿名的字符串对象，即堆中的value所在。String 类型的str，可以改变其内的引用，但“abc”与“bcd”一经确定，就被固定不可变了，即字符串的值一经确定不可更改。str只是对象变量名。
+
+### 2.24.2 常用方法
+
+```java
+-	char charAt(int index) 
+	返回指定索引 index 处的 char 值。
+
+-   boolean contains(CharSequence s) 
+	判断字符串是否包含指定的 字符序列 ，包含返回 true。 
+
+-   boolean endsWith(String 后缀) 
+	判断字符串是否以指定的后缀结束。 
+
+-   boolean equals(Object anObject) 
+	调用方法的字符串与传入的对象比较。 相同则返回true
+
+-   byte[] getBytes() 
+	使用默认的编码表, 将字符串打碎成字节数组 并返回
+
+
+-   int indexOf(int ch) 
+	返回指定字符在此字符串中第一次出现的索引。
+
+-   int indexOf(String str) 
+	返回指定字符串在此字符串中第一次出现的索引。
+
+-   int length() 
+	返回此字符串的长度。 
+
+-   String replace(CharSequence 查找的文字, CharSequence 替换的新文字) 
+	将字符串中匹配查找到的文字, 替换为指定的新文字 , 此操作不会更改原字符串, 而是返回新的字符串!
+
+-   String[] split(String regex) 
+	根据给定正则表达式 或 字符串 的匹配拆分此字符串。
+
+-   String substring(int beginIndex, int endIndex) 
+	从原字符串中截取一个新字符串并返回 , 截取的字符串，是从beginIndex开始到endIndex结束的  (包含开头 不包含 结尾 ) 
+
+-   char[] toCharArray() 
+	将此字符串转换为一个新的字符数组。 
+
+-   String trim() 
+	返回新的去除了前导空白和尾部空白的字符串
+```
+
+
+
