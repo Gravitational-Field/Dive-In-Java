@@ -2084,26 +2084,26 @@ Date是Java中描述时间日期的类 !
 
 ```java
 public static void main(String[] args) {
-    Date date = new Date();  //直接就能获取当前时间
+    Date date = new Date();  //直接就能获取当前时间，和下边date1的效果相同
     Date date1 = new Date(System.currentTimeMillis());
-    System.out.println(date.getTime());  //1596338141883
+    System.out.println(date.getTime());  //1596338141883  时间戳
     System.out.println(date); //Sun Aug 02 11:15:41 CST 2020
-    System.out.println(date1); //Sun Aug 02 11:15:41 CST 2020
+    System.out.println(date1.toString()); //Sun Aug 02 11:15:41 CST 2020
 
 }
 ```
 
 #### 2.25.2 时间格式化 SimpleDateFormat *
 
-```
-创建对象: 
+```java
+	-   创建对象: 
 
     -   new SimpleDateFormat(String 日期格式化字符串);
 
 常用方法:
-
-    -   String dateStr = simpleDateFormat.format(Date date); ***
-    -   Date date = sf.parse(String 日期格式字符串);
+	-   SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss sss"); 
+    -   String dateStr = simpleDateFormat.format(Date date); ***  //date格式化为时间字符串
+    -   Date date = simpleDateFormat.parse(String 日期格式字符串);  //时间字符串解析为date
 
 使用：
 	以下两种情况。
@@ -2171,6 +2171,10 @@ Collections 是操作集合的工具 , 与Collection 没有关系, 也没有对�
 
 ### 3.1.1 Collection的List子接口
 
+```java
+public interface List<E> extends Collection<E> {}
+```
+
 ```
 List接口是一个有序的 Collection，使用此接口能够精确的控制每个元素插入的位置，能够通过索引(元素在List中位置，类似于数组的下标)来访问List中的元素，第一个元素的索引为 0，而且允许有相同的元素。
 
@@ -2191,6 +2195,13 @@ List 接口存储一组不唯一，有序（插入顺序）的对象。
 ```
 
 - **ArrayList常用方法**
+
+```java
+public class ArrayList<E> extends AbstractList<E>
+        implements List<E>, RandomAccess, Cloneable, java.io.Serializable{}
+```
+
+
 
 ```
 基本操作:
@@ -2216,7 +2227,7 @@ List 接口存储一组不唯一，有序（插入顺序）的对象。
 -   boolean retainAll(Collection 集合)    :   从当前集合中, 保留与参数集合匹配的所有元素 !
 ```
 
-### 
+
 
 ```
 判断集合中是否包含某元素 (掌握)
@@ -2636,6 +2647,7 @@ public class Test {
         data.add(new Person("Java",28));
         data.add(new Person("C",8));
         data.add(new Person("Golang",88));
+        //  sort(List集合,Comparator接口实现对象)   //对参数的集合进行数据的排序
         Collections.sort(data, new Comparator<Person>() {
             //匿名内部类
             @Override
@@ -2660,34 +2672,7 @@ public class Test {
 }
 ```
 
-### Collections 集合的工具类
-
-```
--   sort(List集合,Comparator接口实现对象)   //对参数的集合进行数据的排序
-
-案例:
-        List<Person> data = new ArrayList<Person>();
-        data.add(new Person("腰好李腾",28));
-        data.add(new Person("肾宝好李腾",38));
-        data.add(new Person("手好李腾",18));
-        data.add(new Person("眼睛好李腾",8));
-        data.add(new Person("年轻真好李腾",88));
-        Collections.sort(data, new Comparator<Person>() {
-
-            @Override
-            public int compare(Person o1, Person o2) {
-                if(o1.getAge()>o2.getAge()) {
-                    return 1;
-                }else if(o1.getAge()<o2.getAge()) {
-                    return -1;
-                }
-                return 0;
-            }
-        });
-        for (Person p : data) {
-            System.out.println(p);
-        }
-```
+Collections 集合的工具类
 
 ## 3.2 Map 接口 (映射)
 
