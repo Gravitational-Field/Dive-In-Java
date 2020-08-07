@@ -2908,6 +2908,5 @@ Hashtable 不能存储null, 会出现空指针异常 !
 
 
 
-![image-20200804211223158](https://cdn.jsdelivr.net/gh/lizhangjie316/img/2020/20200804211223.png)
 
-![image-20200804211538764](https://cdn.jsdelivr.net/gh/lizhangjie316/img/2020/20200804211538.png)
+
