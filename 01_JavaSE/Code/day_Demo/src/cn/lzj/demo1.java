@@ -1,8 +1,8 @@
-package lzj;
+package cn.lzj;
 
 
 
-public class demo3 {
+public class demo1 {
 
     public static void main(String[] args) {
 

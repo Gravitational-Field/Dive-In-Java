@@ -1,4 +1,4 @@
-package lzj;
+package cn.lzj;
 
 
 
