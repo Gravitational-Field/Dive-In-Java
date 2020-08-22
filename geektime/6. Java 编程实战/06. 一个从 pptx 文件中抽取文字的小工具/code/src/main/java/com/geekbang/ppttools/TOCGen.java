@@ -16,7 +16,7 @@ import java.util.List;
 public class TOCGen {
     public static void main(String[] args) throws Exception {
 
-        String toc = genTocFromPPTX("/Users/geektime/Downloads/javaforgeek-master/Part6/06. 一个从 pptx 文件中抽取文字的小工具/code/src/main/resources/ppts");
+        String toc = genTocFromPPTX("C:\\Users\\Keen\\Desktop\\Project\\Github\\Dive-In-Java\\geektime\\6. Java 编程实战\\06. 一个从 pptx 文件中抽取文字的小工具\\code\\src\\main\\resources\\ppts");
 
         PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream("toc.md"), StandardCharsets.UTF_8));
 
@@ -24,6 +24,7 @@ public class TOCGen {
         pw.flush();
         pw.close();
     }
+
 
     private static String genTocFromPPTX(String s) throws Exception {
         File rootDir = new File(s);
