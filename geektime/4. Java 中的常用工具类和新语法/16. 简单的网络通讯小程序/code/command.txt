@@ -1,4 +1,0 @@
-java com.geekbang.learnsocket.SimpleServer
-
-java com.geekbang.learnsocket.SimpleClient
-
