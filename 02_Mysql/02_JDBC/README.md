@@ -523,5 +523,219 @@ public class DBUtil_v2 {
 
 
 
+# 6. 数据库中的事务
 
+**事务：**事务指逻辑上的一组操作，组成这组操作的各个单元，要么全部成功，要么全部不成功。
+
+例如：A——B转帐，对应于如下两条sql语句
+
+update account set money=money-100 where name=‘A’;
+
+update account set money=money+100 where name=‘B’;
+
+但mysql默认一句sql语句会当做一个事务，完成后会自动提交该事务，所以对于上面的案例需要手动来确定一项事务的开启与关闭。
+
+
+
+## 6.1 Mysql中的事务
+
+mysql的默认引擎是INNODB，支持事务。
+
+- mysql默认自动提交事务。每条语句都处在单独的事务中。
+
+- 手动控制事务
+  - 开启事务：start transaction
+  - 提交事务：commit
+  - 回滚事务：rollback  提交后无法回滚
+
+
+
+## 6.2 Oracle中的事务
+
+Oracle不需要特别的去指定事务的开始和结束。一个事务的结束就是下一个事务的开始
+
+开启事务：
+
+1、连接到数据库，并执行第一条DML语句（insert delete update）
+
+2、前一个事务结束后，又输入了另一条DML语句
+
+提交事务：commit
+
+回滚事务：rollback
+
+
+
+## 6.3 JDBC控制事务
+
+​		当Jdbc程序向数据库获得一个Connection对象时，默认情况下这个Connection对象会自动向数据库提交在它上面发送的SQL语句。若想关闭这种默认提交方式，让多条SQL在一个事务中执行，可使用下列语句：
+
+JDBC控制事务语句：
+
+- connection.setAutoCommit(false); // 开启事物  手动管理事务
+
+- connection.rollback();  // rollback 回滚
+
+- connection.commit();  //  commit 提交事务
+
+> 代码参考：03_transaction/TxTest01.java
+
+```java
+package com.imcode;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+/**
+ * 事务控制
+ * 手动控制事务
+ *
+ * 在需要事务控制的SQL执行之前调用  conn.setAutoCommit(false);
+ * SQL语句如果全部执行正确 提交事务  conn.commit();
+ * 如果出现异常  回滚事务   conn.rollback();
+ * 最后释放资源  conn.close(); 如果有未提交的事务，提交事务，关闭数据库连接
+ */
+public class JDBCDemo04 {
+
+    public static void main(String[] args) {
+        Connection conn = null;
+        Statement st = null;
+        try {
+            String url = "jdbc:oracle:thin:@127.0.0.1:1521:orcl";
+            String username = "app";
+            String password = "123456";
+            conn = DriverManager.getConnection(url, username, password);
+            // 关闭事务的自动提交 手动控制事务
+            conn.setAutoCommit(false);
+
+            st = conn.createStatement();
+            // 执行转账的动作
+            String sql1 = "UPDATE T_ACCOUNT SET MONEY = MONEY - 500 WHERE ACCOUNT='JACK'";
+            String sql2 = "UPDATE T_ACCOUNT SET MONEY = MONEY + 500 WHERE ACCOUNT='ROSE'";
+
+            st.executeUpdate(sql1);
+            st.executeUpdate(sql2);
+            System.out.println("转账已经成功 已经成功 已经成功");
+            // 手动提交事务
+            conn.commit();
+
+            System.out.println("给两个账户发送成功消息通知");
+            int i = 100 / 0;
+        } catch (Exception e) {
+            // 如果出现异常回滚事务
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            e.printStackTrace();
+        } finally {
+            try {
+                st.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                conn.close();// 关闭连接的时候事务自动提交
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
+
+## 6.4 数据库事务的ACID特性
+
+- 原子性（Atomicity）
+  - 指事务是一个不可分割的工作单位，事务中的操作要么都发生，要么都不发生。 
+- 持久性（Durability）
+  - 指一个事务一旦被提交，它对数据库中数据的改变就是永久性的，接下来即使数据库发生故障也不应该对其有任何影响。
+- 隔离性（Isolation）
+  - 一个事务的执行不被另一个事务的执行干扰。
+  - 事务的隔离性是多个用户并发访问数据库时，数据库为每一个用户开启的事务，不能被其他事务的操作数据所干扰，多个并发事务之间要相互隔离。
+- 一致性（Consistency）
+  - 通过实现原子性、持久性与隔离性来满足数据库事务的
+  - 事务必须使数据库从一个一致性状态变换到另外一个一致性状态。转账前和转账后的总金额不变。为了保证一致性，在进行一项事务时，当发生异常时可以进行回滚；当数据被commit后，对数据库永久性改变，通过设置事务隔离级别来满足具体的业务需求，保证事务进行前后的数据库的稳定。
+
+
+
+## 6.5 数据库事务的隔离级别
+
+**隔离级别：**并行事务间的隔离程度。
+
+- 两个并行事务同时访问数据库表相同行时可能出现三个问题：
+
+1. **脏读：**<font color='red'>**危险**</font> 
+
+   ​    事务T1读到了事务T2做出了修改但未提交的数据，若此时T2进行回滚操作，取消修改，此时T1读取的行无效，即为脏数据，也称作脏读。
+
+2. **不可重复读:**  <font color='red'>**（update）**</font>
+
+   ​    事务T1读取了一条记录，事务T2进行更新操作并提交后，事务1再次查询，发现与第一次读取的记录发生改变，也就是发生了不可重复读的问题。
+
+3. **幻读:**  <font color='red'>**（insert或delete）**</font>
+
+   ​	事务T1读取到满足where条件的结果集，事务T2进行insert或者delete了满足T1查询条件的记录，并进行了提交后，事务T1再次查询，可以看到事务T2中新insert或看不到新delete后的记录，新记录即为幻读。
+
+   
+
+**四种隔离级别：<font color='red'>级别逐渐严格</font>**
+
+|  级别  | 名称                      | 特性                                     | 补充                                            |
+| :----: | :------------------------ | ---------------------------------------- | ----------------------------------------------- |
+| 第一级 | 读未提交 READ UNCOMMITTED | 幻读、不可重复读和脏读都允许；           | 主流数据库都不会设置为这个隔离级别。            |
+| 第二级 | 读提交 READ COMMITTED     | 允许幻读、允许不可重复读，不允许脏读；   | oracle默认隔离界别，避免了脏读。                |
+| 第三级 | 可重复读 REPEATABLE READ  | 允许幻读，不允许不可重复读，不允许脏读； | mysql默认隔离界别，避免了脏读与不可重复读问题。 |
+| 第四级 | 可串行化 SERIALIZABLE     | 幻读、不可重复读和脏读都不允许；         | 挖没钱买的隔离，非常安全。                      |
+
+<font color='red'>PS : 级别越高，性能要求越高，数据库开销越大，数据越安全。</font>
+
+- 案例
+
+| 时间 | 线程1 事物1                                    | 线程2 事物2                                                  | 说明                                                         |
+| ---- | ---------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| t1   | begin;                                         |                                                              |                                                              |
+| t2   | select * from account where name='A';结果200块 |                                                              |                                                              |
+| t3   |                                                | begin;                                                       |                                                              |
+| t4   |                                                | update account set money=money+100 where name='A';           |                                                              |
+| t5   | select * from account where name='A';结果300块 |                                                              | 读到了另一个线程未提交事务的数据。***\*赃读\****发生了       |
+| t6   |                                                | commit;                                                      |                                                              |
+| t7   | select * from account where name='A';结果300块 |                                                              | 读到了另一个线程提交事务的update数据。***\*不可重复读\****发生了 |
+| t8   |                                                | insert into account values('C',1000);执行insert语句插入数据，事务自动提交了 |                                                              |
+| t9   | select * from account;查到4条数据              |                                                              | 读到了另一个线程自动提交事务的insert语句数据。***\*幻读\****发生了 |
+| t10  | commit;                                        |                                                              |                                                              |
+
+- 查询事务隔离级别：
+
+  ```mysql
+  show variables like '%isolation%';
+  
+  select @@global.tx_isolation, @@tx_isolation;
+  ```
+
+- 修改隔离级别
+
+```mysql
+-- [GLOBAL | SESSION] 可选择对全局有效还是对当前会话有效
+SET [GLOBAL | SESSION] TRANSACTION ISOLATION LEVEL  
+  {
+       REPEATABLE READ
+     | READ COMMITTED
+     | READ UNCOMMITTED
+     | SERIALIZABLE
+   }
+```
+
+
+
+## 6.6 JDBC中控制事务的隔离级别
+
+Connection接口的设置隔离级别的方法：
+
+<img src="https://cdn.jsdelivr.net/gh/lizhangjie316/img/2020/20200828215351.png" alt="image-20200828215351907" style="zoom:150%;" />
+
+**<font color='red'>PS: 设置隔离级别必须在开启事务之前</font>**  即在conn.setAutoCommit(false);之前 conn.setTransactionIsolation(int level);
 
