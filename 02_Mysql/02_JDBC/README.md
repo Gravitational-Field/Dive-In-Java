@@ -1,6 +1,39 @@
-[toc]
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
+- [JDBC操作数据库](#jdbc%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93)
+- [1. JDBC概述](#1-jdbc%E6%A6%82%E8%BF%B0)
+  - [1.1 JDBC API](#11-jdbc-api)
+  - [1.2 JDBC 驱动](#12-jdbc-%E9%A9%B1%E5%8A%A8)
+  - [1.3 程序员](#13-%E7%A8%8B%E5%BA%8F%E5%91%98)
+  - [1.4 三方关系](#14-%E4%B8%89%E6%96%B9%E5%85%B3%E7%B3%BB)
+- [2. 使用 JDBC API](#2-%E4%BD%BF%E7%94%A8-jdbc-api)
+  - [2.1 加载驱动](#21-%E5%8A%A0%E8%BD%BD%E9%A9%B1%E5%8A%A8)
+  - [2.2 获取数据库连接](#22-%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5)
+  - [2.3 执行SQL](#23-%E6%89%A7%E8%A1%8Csql)
+  - [2.4 处理结果集](#24-%E5%A4%84%E7%90%86%E7%BB%93%E6%9E%9C%E9%9B%86)
+  - [2.5 释放资源](#25-%E9%87%8A%E6%94%BE%E8%B5%84%E6%BA%90)
+- [3. 编程细节](#3-%E7%BC%96%E7%A8%8B%E7%BB%86%E8%8A%82)
+  - [3.1 JDBC日期和时间处理](#31-jdbc%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86)
+- [4. DBUtil工具类](#4-dbutil%E5%B7%A5%E5%85%B7%E7%B1%BB)
+  - [4.1 DBUtil案例](#41-dbutil%E6%A1%88%E4%BE%8B)
+  - [4.2 application.properties 数据库配置文件](#42-applicationproperties-%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6)
+- [5. 数据库连接池](#5-%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0)
+  - [5.1 数据库连接池的作用](#51-%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0%E7%9A%84%E4%BD%9C%E7%94%A8)
+  - [5.2 连接池原理](#52-%E8%BF%9E%E6%8E%A5%E6%B1%A0%E5%8E%9F%E7%90%86)
+  - [5.4 Druid数据库连接池](#54-druid%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0)
+  - [5.5 Druid配置参考](#55-druid%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83)
+  - [5.6 完整过程参照下边代码](#56-%E5%AE%8C%E6%95%B4%E8%BF%87%E7%A8%8B%E5%8F%82%E7%85%A7%E4%B8%8B%E8%BE%B9%E4%BB%A3%E7%A0%81)
+- [6. 数据库中的事务](#6-%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1)
+  - [6.1 Mysql中的事务](#61-mysql%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1)
+  - [6.2 Oracle中的事务](#62-oracle%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1)
+  - [6.3 JDBC控制事务](#63-jdbc%E6%8E%A7%E5%88%B6%E4%BA%8B%E5%8A%A1)
+  - [6.4 数据库事务的ACID特性](#64-%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84acid%E7%89%B9%E6%80%A7)
+  - [6.5 数据库事务的隔离级别](#65-%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB)
+  - [6.6 JDBC中控制事务的隔离级别](#66-jdbc%E4%B8%AD%E6%8E%A7%E5%88%B6%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB)
 
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ---
 
@@ -50,7 +83,7 @@
 
 - 程序员学习 `JDBC` 规范来**应用这些 jar 包里的类**
 
-  ![1537868017069](C:%5CUsers%5CKeen%5CDesktop%5C%25E8%25B5%2584%25E6%2596%2599%5C13%2520JDBC%5C01%2520JDBC%5C%25E6%2596%2587%25E6%25A1%25A3%5Cimg%5CJDBC03.png)
+  ![](https://cdn.jsdelivr.net/gh/lizhangjie316/img/2020/20200829082804.png)
 
 
 
@@ -66,7 +99,9 @@
 
 
 
-![1537868466877](C:%5CUsers%5CKeen%5CDesktop%5C%25E8%25B5%2584%25E6%2596%2599%5C13%2520JDBC%5C01%2520JDBC%5C%25E6%2596%2587%25E6%25A1%25A3%5Cimg%5CJDBC04.png)
+![](README.assets/JDBC04.png)
+
+
 
 - `DriverManager` ：依据数据库的不同，管理JDBC驱动
 - `Connection` ：负责连接数据库并担任传送数据的任务  
@@ -174,7 +209,9 @@ Connection conn = DriverManager.getConnection(url, user, password);
   - <font color='red'>需要注意，Statement是在execute时候传入sql，而PreparedStatement则是在对象初始化时传入预编译的sql。</font>
 - `CallableStatement`（从PreparedStatement 继承）：用于执行数据库存储过程的调用;
 
-![1537869111499](C:%5CUsers%5CKeen%5CDesktop%5C%25E8%25B5%2584%25E6%2596%2599%5C13%2520JDBC%5C01%2520JDBC%5C%25E6%2596%2587%25E6%25A1%25A3%5Cimg%5CJDBC05.png)
+![1537869111499](img/JDBC05.png)
+
+
 
 
 
@@ -186,7 +223,9 @@ Connection conn = DriverManager.getConnection(url, user, password);
 - **初始状态下记录指针指向第一条记录的前面**，通过next()方法指向第一条记录。
 - 循环完毕后指向最后一条记录的后面。
 
-![1537869396570](C:%5CUsers%5CKeen%5CDesktop%5C%25E8%25B5%2584%25E6%2596%2599%5C13%2520JDBC%5C01%2520JDBC%5C%25E6%2596%2587%25E6%25A1%25A3%5Cimg%5CJDBC06.png)
+![1537869396570](img/JDBC06.png)
+
+
 
 ## 2.5 释放资源
 
@@ -356,9 +395,9 @@ show variables like '%max_connections%';  # 在登入mysql后 mysql -uroot -p123
 
 
 
-![image-20200826195053056](https://cdn.jsdelivr.net/gh/lizhangjie316/img/2020/20200826195739.png)
+![image-20200826195053056](img/20200826195739.png)
 
-![image-20200826195732100](https://cdn.jsdelivr.net/gh/lizhangjie316/img/2020/20200826195732.png)
+![image-20200826195732100](img/20200826195732.png)
 
 
 
@@ -708,6 +747,45 @@ public class JDBCDemo04 {
 | t9   | select * from account;查到4条数据              |                                                              | 读到了另一个线程自动提交事务的insert语句数据。***\*幻读\****发生了 |
 | t10  | commit;                                        |                                                              |                                                              |
 
+- 讲解
+
+```bash
+时间1: T1开启事务
+    时间2:	T2开启事务
+		时间3:	执行修改
+		时间4:	执行新增
+		时间5: 	
+				READ UNCOMMITTED 
+					T1 查询到了 T2新增和修改的数据	-- 脏读				
+				READ COMMITTED
+					T1 查询不到 T2新增和修改数据
+				REPEATABLE READ
+					T1 查询不到 T2新增和修改数据
+				SERIALIZABLE 
+					T1 查询不到 T2新增和修改数据		
+	时间6: 	T2提交事务
+		时间7: 
+				READ COMMITTED(Oracle)
+					T1查询到了T2新增的后数据	-- 幻读	bash	    
+					T1查询到了T2修改的后数据	-- 不可重复读	
+				REPEATABLE READ(MySQL)
+					T1查询到了T2新增的后数据	-- 幻读	
+					T1查询不到T2修改的后数据	-- 可重复读	   	
+				SERIALIZABLE 
+				    T1查询不到T2新增的后数据
+					T1查询不到T2修改的后数据
+时间8: T1关闭事务
+
+时间9: T3开启事务
+
+    READ UNCOMMITTED、READ COMMITTED、REPEATABLE READ、SERIALIZABLE
+	四种隔离级别 均可以查询到T2新增和修改后的数据
+	
+如果查询操作没有在事务中，只能查询到其它事务提交事务后的数据。a
+```
+
+
+
 - 查询事务隔离级别：
 
   ```mysql
@@ -738,4 +816,29 @@ Connection接口的设置隔离级别的方法：
 <img src="https://cdn.jsdelivr.net/gh/lizhangjie316/img/2020/20200828215351.png" alt="image-20200828215351907" style="zoom:150%;" />
 
 **<font color='red'>PS: 设置隔离级别必须在开启事务之前</font>**  即在conn.setAutoCommit(false);之前 conn.setTransactionIsolation(int level);
+
+# 7. DBUtils
+
+## 7.1 概述
+
+DBUtils是java编程中的数据库操作实用工具，小巧简单实用。
+
+DBUtils封装了对JDBC的操作，简化了JDBC操作，可以少写代码。
+
+Dbutils核心类和接口
+
+- QueryRunner中提供对sql语句操作的API.
+
+- ResultSetHandler接口，用于定义select操作后，怎样封装结果集.
+
+https://mvnrepository.com/artifact/commons-dbutils/commons-dbutils
+
+```xml
+<!-- https://mvnrepository.com/artifact/commons-dbutils/commons-dbutils -->
+<dependency>
+    <groupId>commons-dbutils</groupId>
+    <artifactId>commons-dbutils</artifactId>
+    <version>1.7</version>
+</dependency>
+```
 
