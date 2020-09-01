@@ -611,11 +611,11 @@ Oracle不需要特别的去指定事务的开始和结束。一个事务的结�
 
 JDBC控制事务语句：
 
-- connection.setAutoCommit(false); // 开启事物  手动管理事务
+- conn.setAutoCommit(false); // 开启事物  手动管理事务
 
-- connection.rollback();  // rollback 回滚
+- conn.rollback();  // rollback 回滚
 
-- connection.commit();  //  commit 提交事务
+- conn.commit();  //  commit 提交事务
 
 > 代码参考：03_transaction/TxTest01.java
 
@@ -819,15 +819,17 @@ Connection接口的设置隔离级别的方法：
 
 # 7. DBUtils
 
+**<font color=red>存在的必要性在于解决数据库表与Bean实体之间的映射繁琐问题</font>**
+
 ## 7.1 概述
 
 DBUtils是java编程中的数据库操作实用工具，小巧简单实用。
 
 DBUtils封装了对JDBC的操作，简化了JDBC操作，可以少写代码。
 
-Dbutils核心类和接口
+**Dbutils核心类和接口：**
 
-- QueryRunner中提供对sql语句操作的API.
+- QueryRunner中提供对sql语句操作的API.  
 
 - ResultSetHandler接口，用于定义select操作后，怎样封装结果集.
 
@@ -840,5 +842,462 @@ https://mvnrepository.com/artifact/commons-dbutils/commons-dbutils
     <artifactId>commons-dbutils</artifactId>
     <version>1.7</version>
 </dependency>
+```
+
+
+
+## 7.2 QueryRunner类
+
+- update(String sql, Object... params) ，用来完成表数据的增加、删除、更新操作。 **不能事务控制**
+- update(Connection conn, String sql, Object... params) ， **可以进行事务控制**
+- query(String sql, ResultSetHandler<T> rsh, Object... params) ， 用来完成表数据的查询操作。  **不能事务控制**
+
+- query(Connection conn, String sql, ResultSetHandler<T> rsh, Object... params) ，**可以进行事务控制**
+
+**<font color='red'>只要获得了conn连接，即可以进行事务控制。</font>**
+
+> 参见代码：04_DBUtils/DbutilsTest01.java    为没有对象关系映射时的复杂情况演示。
+>
+> ​				    04_DBUtils/DbutilsTest02.java    为QuerryRunner的使用演示实例
+>
+> ​					04_DBUtils/DbutilsTest03.java(测试封装的操作)  +   04_DBUtils/DBUtil.java(封装好的QuerryRunner操作)
+
+- [为没有对象关系映射时的复杂情况演示](Code/04_DBUtils/DbutilsTest01.java)
+- [为QuerryRunner的使用演示实例](Code/04_DBUtils/DbutilsTest02.java)
+- [测试封装QuerryRunner的操作](Code/04_DBUtils/DbutilsTest03.java)  +  [封装QuerryRunner的操作](Code/04_DBUtils/04_DBUtils/DBUtil.java) 
+
+```java
+// 映射关系的建立，不是通过对象的属性名称和数据库列名建立映射
+// 而是通过setXxx() 方法来建立映射
+// setXxx  去掉set  将第一个X 转小写，去和数据库的列名匹配
+// setCreate_time -- > create_time
+```
+
+
+
+## 7.3 ResultSetHandler结果集处理接口
+
+| ResultSetHandler接口的实现类 |                                                              |
+| ---------------------------- | ------------------------------------------------------------ |
+| ArrayHandler                 | 将结果集中的第一条记录封装到一个Object[]数组中，数组中的每一个元素就是这条记录中的每一个字段的值 |
+| ArrayListHandler             | 将结果集中的每一条记录都封装到一个Object[]数组中，将这些数组在封装到List集合中。 |
+| BeanHandler                  | 将结果集中第一条记录封装到一个指定的javaBean中。             |
+| BeanListHandler              | 将结果集中每一条记录封装到指定的javaBean中，将这些javaBean在封装到List集合中 |
+| ScalarHandler                | 它是用于单数据。例如select count(*) from 表操作。            |
+| ColumnListHandler            | 将结果集中指定的列的字段值，封装到一个List集合中             |
+| MapHandler                   | 将结果集第一行封装到Map集合中,Key 列名, Value 该列数据       |
+| MapListHandler               | 将结果集封装到Map集合中,Key 列名, Value 该列数据,Map集合存储到List集合 |
+
+
+
+## 7.4 案例
+
+### 7.4.1 没有对象关系映射时的复杂情况演示
+
+```java
+public class DbutilsTest01 {
+
+    @Test
+    public void test01() {
+        User user = getById(1);
+        System.out.println(user);
+    }
+
+    public User getById(Integer userId) {
+        // 通过id查询用户详细信息
+        Connection conn = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            // 1.获取数据库连接
+            conn = DBUtil.getConnection();
+            // 2.获取sql执行对象
+            pst = conn.prepareStatement("SELECT * FROM t_user WHERE id = ?");
+            // 3.设置参数
+            pst.setInt(1, userId);
+            // 4.获取结果集
+            rs = pst.executeQuery();
+            // 5.处理结果集
+            if (rs.next()) {
+                Integer id = rs.getInt("id");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                String email = rs.getString("email");
+                String mobile = rs.getString("mobile");
+                Date createTime = rs.getDate("create_time");
+                Date updateTime = rs.getDate("update_time");
+                User user = new User();
+                user.setId(id);
+                user.setUsername(username);
+                user.setPassword(password);
+                user.setEmail(email);
+                user.setMobile(mobile);
+                user.setCreateTime(createTime);
+                user.setUpdateTime(updateTime);
+                return user;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // 6.释放资源
+            DBUtil.close(conn, pst, rs);
+        }
+        return null;
+    }
+}
+```
+
+### 7.4.2 QuerryRunner的使用演示实例 + 各种不同类型的结果集处理
+
+```java
+public class DbutilsTest02 {
+
+    @Test
+    public void test01() throws SQLException {
+        QueryRunner queryRunner = new QueryRunner();
+        Connection conn = DBUtil.getConnection();
+        // 如果手动传入数据库连接，需要手动关闭
+        queryRunner.update(conn, "DELETE FROM t_user WHERE id = 2");
+        DBUtil.close(conn);
+    }
+
+    @Test
+    public void test02() {
+        QueryRunner queryRunner = new QueryRunner();
+        Connection conn = null;
+        try {
+            conn = DBUtil.getConnection();
+            conn.setAutoCommit(false);
+            queryRunner.update(conn, "UPDATE t_account SET money = money - 100 WHERE account='A'");
+            queryRunner.update(conn, "UPDATE t_account SET money = money + 100 WHERE account='B'");
+            conn.commit();
+        } catch (Exception e) {
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+        } finally {
+            DBUtil.close(conn);
+        }
+    }
+
+    @Test
+    public void test03() throws SQLException {
+        // QueryRunner 从数据源获取数据库连接，不需要程序手动控制连接
+        // 程序员不需要维护数据库连接，不能手动控制事务
+        QueryRunner queryRunner = new QueryRunner(DBUtil.getDataSource());
+        queryRunner
+                .update("UPDATE t_account SET money = money - 100 WHERE account='A'");
+    }
+
+    @Test
+    public void test04() throws SQLException {
+        // QueryRunner 从数据源获取数据库连接，不需要程序手动控制连接
+        // 程序员不需要维护数据库连接，不能手动控制事务
+        QueryRunner queryRunner = new QueryRunner(DBUtil.getDataSource());
+        queryRunner
+                .update("UPDATE t_user SET password = ? WHERE username = ? AND email = ?",
+                        "111111", "admin", "admin@126.com");
+    }
+
+
+    @Test
+    public void test05() throws SQLException {
+        QueryRunner queryRunner = new QueryRunner(DBUtil.getDataSource());
+        String sql
+                = "SELECT id,username,password,email,mobile, create_time createTime, update_time updateTime FROM t_user WHERE id=1";
+        User user = queryRunner.query(sql, new BeanHandler<User>(User.class));
+        System.out.println(user);
+        // 映射关系的建立，不是通过对象的属性名称和数据库列名建立映射
+        // 而是通过setXxx() 方法来建立映射
+        // setXxx  去掉set  将第一个X 转小写，去和数据库的列名匹配
+        // setCreate_time -- > create_time
+    }
+
+    @Test
+    public void test06() throws SQLException {
+        QueryRunner queryRunner = new QueryRunner(DBUtil.getDataSource());
+        String sql
+                = "SELECT id,username,password,email,mobile, create_time createTime, update_time updateTime FROM t_user";
+        List<User> list = queryRunner.query(sql, new BeanListHandler<User>(User.class));
+        System.out.println(list);
+    }
+
+    @Test
+    public void test07() throws SQLException {
+        QueryRunner queryRunner = new QueryRunner(DBUtil.getDataSource());
+        String sql
+                = "SELECT * FROM t_user WHERE id=1";
+        Object[] arr = queryRunner.query(sql, new ArrayHandler());
+        System.out.println(Arrays.toString(arr));
+    }
+
+    @Test
+    public void test08() throws SQLException {
+        QueryRunner queryRunner = new QueryRunner(DBUtil.getDataSource());
+        String sql
+                = "SELECT * FROM t_user";
+        List<Object[]> list = queryRunner.query(sql, new ArrayListHandler());
+        for (Object[] arr : list) {
+            System.out.println(Arrays.toString(arr));
+        }
+    }
+
+
+    @Test
+    public void test09() throws SQLException {
+        QueryRunner queryRunner = new QueryRunner(DBUtil.getDataSource());
+        String sql
+                = "SELECT * FROM t_user WHERE id=1";
+        Map<String,Object> map = queryRunner.query(sql,new MapHandler());
+        for (String key : map.keySet()) {
+            System.out.println(key + "-->" + map.get(key));
+        }
+    }
+
+    @Test
+    public void test10() throws SQLException {
+        QueryRunner queryRunner = new QueryRunner(DBUtil.getDataSource());
+        String sql
+                = "SELECT * FROM t_user";
+        List<Map<String,Object>> list = queryRunner.query(sql,new MapListHandler());
+        for (Map<String,Object> map : list) {
+            for (String key : map.keySet()) {
+                System.out.print(key + ":" + map.get(key) + "\t");
+            }
+            System.out.println();
+        }
+    }
+
+    /**
+    * @author: keen
+    * @Date: 2020/8/29 19:01
+    * @Description:查询一列数据
+    */
+    @Test
+    public void test11() throws SQLException {
+        QueryRunner queryRunner = new QueryRunner(DBUtil.getDataSource());
+        //java.lang.Long cannot be cast to java.lang.Integer
+        String sql
+                = "SELECT count(*) FROM t_user";
+        Long count = queryRunner.query(sql, new ScalarHandler<Long>());
+        System.out.println(count);
+    }
+
+    /**
+    * @author: keen
+    * @Date: 2020/8/29 19:10
+    * @Description:返回sql指定列第一行的数据 （默认是第一列）
+    */
+    @Test
+    public void test12() throws SQLException {
+        QueryRunner queryRunner = new QueryRunner(DBUtil.getDataSource());
+        String sql
+                = "SELECT * FROM t_user ORDER BY id desc";
+        String username = queryRunner.query(sql, new ScalarHandler<String>("username"));
+        System.out.println(username);
+    }
+
+
+//select count(*) from t_table;  结果集是单列一条
+//SELECT username FROM t_user
+
+    /**
+    * @author: keen
+    * @Date: 2020/8/29 19:13
+    * @Description:结果集中指定列的字段值封装到List集合中
+    */
+    @Test
+    public void test13() throws SQLException {
+        QueryRunner queryRunner = new QueryRunner(DBUtil.getDataSource());
+        String sql
+                = "SELECT username FROM t_user";
+        List<String> list = queryRunner.query(sql,new ColumnListHandler<String>());
+        System.out.println(list);
+
+    }
+
+    @Test
+    public void test14() throws SQLException {
+        QueryRunner queryRunner = new QueryRunner(DBUtil.getDataSource());
+        String sql
+                = "SELECT * FROM t_user";
+        List<String> list = queryRunner.query(sql,new ColumnListHandler<String>("email"));
+        System.out.println(list);
+    }
+}
+```
+
+### 7.4.3 封装QuerryRunner操作,并测试
+
+- **封装**
+
+```java
+public class DBUtil {
+    private static DataSource dataSource;
+    private static QueryRunner queryRunner;
+
+    static {
+        try {
+            // 完成数据库连接池的初始化
+            Properties prop = new Properties();
+            InputStream in = DBUtil.class.getClassLoader().getResourceAsStream("application.properties");
+            prop.load(in);
+            in.close();
+            // 创建数据库连接池
+            dataSource = DruidDataSourceFactory.createDataSource(prop);
+            queryRunner = new QueryRunner(dataSource);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 返回单个对象
+     */
+    public static <T> T queryOne(Class<? extends T> type, String sql, Object... params) {
+        try {
+            return queryRunner.query(sql, new BeanHandler<T>(type), params);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 返回对象的集合
+     */
+    public static <T> List<T> queryList(Class<? extends T> type, String sql, Object... params) {
+        try {
+            return queryRunner.query(sql, new BeanListHandler<T>(type), params);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 自动提交事务的新增、修改、删除
+     */
+    public static void update(String sql, Object... params) {
+        try {
+            queryRunner.update(sql, params);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+    * @author: keen
+    * @Date: 2020/8/30 9:46
+    * @Description:带事务的增、删、改
+    */
+    public static void update(Connection conn, String sql, Object... params) {
+        try {
+            queryRunner.update(conn, sql, params);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static DataSource getDataSource() {
+        return dataSource;
+    }
+
+    public static Connection getConnection() {
+        Connection conn = null;
+        try {
+            conn = dataSource.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return conn;
+    }
+
+    public static void close(Connection conn) {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void close(Connection conn, Statement st) {
+        if (st != null) {
+            try {
+                st.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        close(conn);
+    }
+
+
+    public static void close(Connection conn, Statement st, ResultSet rs) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        close(conn, st);
+    }
+}
+```
+
+- **测试使用**
+
+```java
+public class DbutilsTest03 {
+
+    @Test
+    public void test01() throws SQLException {
+        String sql = "SELECT * FROM t_user WHERE id = ?";
+        User user = DBUtil.queryOne(User.class, sql, 1);
+        System.out.println(user);
+    }
+
+    @Test
+    public void test02() throws SQLException {
+        String sql = "SELECT * FROM t_user WHERE email=? and mobile=?";
+        User user = DBUtil.queryOne(User.class, sql, "admin@126.com", "13888888888");
+        System.out.println(user);
+    }
+
+    @Test
+    public void test03() throws SQLException {
+        String sql = "SELECT * FROM t_user";
+        List<User> list = DBUtil.queryList(User.class, sql);
+        System.out.println(list);
+    }
+
+    @Test
+    public void test04() {
+        Connection conn = null;
+        try {
+            conn = DBUtil.getConnection();
+            String sql = "INSERT INTO t_account VALUES(?,?)";
+            conn.setAutoCommit(false);
+            DBUtil.update(conn, sql, "H", 250.5);
+            int i = 100/0;
+            conn.commit();
+        } catch (Exception e) {
+            try {
+                conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+        } finally {
+            DBUtil.close(conn);
+        }
+    }
+}
 ```
 
