@@ -32,6 +32,14 @@
   - [6.4 数据库事务的ACID特性](#64-%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84acid%E7%89%B9%E6%80%A7)
   - [6.5 数据库事务的隔离级别](#65-%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB)
   - [6.6 JDBC中控制事务的隔离级别](#66-jdbc%E4%B8%AD%E6%8E%A7%E5%88%B6%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB)
+- [7. DBUtils](#7-dbutils)
+  - [7.1 概述](#71-%E6%A6%82%E8%BF%B0)
+  - [7.2 QueryRunner类](#72-queryrunner%E7%B1%BB)
+  - [7.3 ResultSetHandler结果集处理接口](#73-resultsethandler%E7%BB%93%E6%9E%9C%E9%9B%86%E5%A4%84%E7%90%86%E6%8E%A5%E5%8F%A3)
+  - [7.4 案例](#74-%E6%A1%88%E4%BE%8B)
+    - [7.4.1 没有对象关系映射时的复杂情况演示](#741-%E6%B2%A1%E6%9C%89%E5%AF%B9%E8%B1%A1%E5%85%B3%E7%B3%BB%E6%98%A0%E5%B0%84%E6%97%B6%E7%9A%84%E5%A4%8D%E6%9D%82%E6%83%85%E5%86%B5%E6%BC%94%E7%A4%BA)
+    - [7.4.2 QuerryRunner的使用演示实例 + 各种不同类型的结果集处理](#742-querryrunner%E7%9A%84%E4%BD%BF%E7%94%A8%E6%BC%94%E7%A4%BA%E5%AE%9E%E4%BE%8B--%E5%90%84%E7%A7%8D%E4%B8%8D%E5%90%8C%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%BB%93%E6%9E%9C%E9%9B%86%E5%A4%84%E7%90%86)
+    - [7.4.3 封装QuerryRunner操作,并测试](#743-%E5%B0%81%E8%A3%85querryrunner%E6%93%8D%E4%BD%9C%E5%B9%B6%E6%B5%8B%E8%AF%95)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1300,4 +1308,3 @@ public class DbutilsTest03 {
     }
 }
 ```
-
