@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        function onblurfun(){
+            console.log("静态加载失去焦点事件"); // 向控制台打印
+        }
+    //    动态加载事件格式
+        window.onload = function () {
+            var input01 = document.getElementById("input01");
+            alert(input01)
+            input01.onblur = function () {
+                console.log("动态加载失去焦点事件");
+            }
+        }
+
+    </script>
+</head>
+<body>
+    用户名：<input type="text" onblur="onblurfun()">
+    密码：<input id="input01" type="password"> <br />
+</body>
+</html>
