@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/00_SimpleModule/00_SimpleModule.iml" filepath="$PROJECT_DIR$/00_SimpleModule/00_SimpleModule.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01_html/01_html.iml" filepath="$PROJECT_DIR$/01_html/01_html.iml" />
+      <module fileurl="file://$PROJECT_DIR$/03_jQuery/03_jQuery.iml" filepath="$PROJECT_DIR$/03_jQuery/03_jQuery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/04_jQuery/04_jQuery.iml" filepath="$PROJECT_DIR$/04_jQuery/04_jQuery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/05_book_static/05_book_static.iml" filepath="$PROJECT_DIR$/05_book_static/05_book_static.iml" />
+      <module fileurl="file://$PROJECT_DIR$/05_web/05_web.iml" filepath="$PROJECT_DIR$/05_web/05_web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/05_xml/05_xml.iml" filepath="$PROJECT_DIR$/05_xml/05_xml.iml" />
+      <module fileurl="file://$PROJECT_DIR$/06_Servlet/06_Servlet.iml" filepath="$PROJECT_DIR$/06_Servlet/06_Servlet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/07_Filter/07_Filter.iml" filepath="$PROJECT_DIR$/07_Filter/07_Filter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/07_Servlet/07_Servlet.iml" filepath="$PROJECT_DIR$/07_Servlet/07_Servlet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/07_book/07_book.iml" filepath="$PROJECT_DIR$/07_book/07_book.iml" />
+      <module fileurl="file://$PROJECT_DIR$/08_jsp/08_jsp.iml" filepath="$PROJECT_DIR$/08_jsp/08_jsp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/09_EL_JSTL/09_EL_JSTL.iml" filepath="$PROJECT_DIR$/09_EL_JSTL/09_EL_JSTL.iml" />
+      <module fileurl="file://$PROJECT_DIR$/13_cookie_session/13_cookie_session.iml" filepath="$PROJECT_DIR$/13_cookie_session/13_cookie_session.iml" />
+      <module fileurl="file://$PROJECT_DIR$/15_Filter/15_Filter.iml" filepath="$PROJECT_DIR$/15_Filter/15_Filter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/15_book/15_book.iml" filepath="$PROJECT_DIR$/15_book/15_book.iml" />
+      <module fileurl="file://$PROJECT_DIR$/16_json_ajax_i18n/16_json_ajax_i18n.iml" filepath="$PROJECT_DIR$/16_json_ajax_i18n/16_json_ajax_i18n.iml" />
+      <module fileurl="file://$PROJECT_DIR$/16_json_ajax_i18n/Test.iml" filepath="$PROJECT_DIR$/16_json_ajax_i18n/Test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ThreadLocal/ThreadLocal.iml" filepath="$PROJECT_DIR$/ThreadLocal/ThreadLocal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tmp/tmp.iml" filepath="$PROJECT_DIR$/tmp/tmp.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>filter-listener-day01</display-name>
+	<listener>
+	    <listener-class>com.xdl.listener.XdlAppListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.xdl.listener.XdlSessionData2Listener</listener-class>
+	</listener>
+	<servlet>
+		<description>
+		</description>
+		<display-name>XdlLoginController</display-name>
+		<servlet-name>XdlLoginController</servlet-name>
+		<servlet-class>com.xdl.controller.XdlLoginController</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>XdlOrderInfoController</display-name>
+		<servlet-name>XdlOrderInfoController</servlet-name>
+		<servlet-class>com.xdl.controller.XdlOrderInfoController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>XdlLoginController</servlet-name>
+		<url-pattern>/login.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>XdlOrderInfoController</servlet-name>
+		<url-pattern>/orderInfo.do</url-pattern>
+	</servlet-mapping>
+	<filter>
+		<filter-name>XdlSecondFilter</filter-name>
+		<filter-class>com.xdl.filter.XdlSecondFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>XdlSecondFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>XdlFirstFilter</filter-name>
+		<filter-class>com.xdl.filter.XdlFirstFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>XdlFirstFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

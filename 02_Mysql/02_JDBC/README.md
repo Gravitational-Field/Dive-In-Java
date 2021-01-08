@@ -107,7 +107,7 @@
 
 
 
-![](README.assets/JDBC04.png)
+![](https://cdn.jsdelivr.net/gh/lizhangjie316/img/2020/20201118191533.png)
 
 
 
@@ -217,7 +217,7 @@ Connection conn = DriverManager.getConnection(url, user, password);
   - <font color='red'>需要注意，Statement是在execute时候传入sql，而PreparedStatement则是在对象初始化时传入预编译的sql。</font>
 - `CallableStatement`（从PreparedStatement 继承）：用于执行数据库存储过程的调用;
 
-![1537869111499](img/JDBC05.png)
+![1537869111499](https://cdn.jsdelivr.net/gh/lizhangjie316/img/2020/20201118191534.png)
 
 
 
@@ -231,7 +231,7 @@ Connection conn = DriverManager.getConnection(url, user, password);
 - **初始状态下记录指针指向第一条记录的前面**，通过next()方法指向第一条记录。
 - 循环完毕后指向最后一条记录的后面。
 
-![1537869396570](img/JDBC06.png)
+![1537869396570](https://cdn.jsdelivr.net/gh/lizhangjie316/img/2020/20201118191535.png)
 
 
 
@@ -403,9 +403,9 @@ show variables like '%max_connections%';  # 在登入mysql后 mysql -uroot -p123
 
 
 
-![image-20200826195053056](img/20200826195739.png)
+![image-20200826195053056](https://cdn.jsdelivr.net/gh/lizhangjie316/img/2020/20201118191536.png)
 
-![image-20200826195732100](img/20200826195732.png)
+![image-20200826195732100](https://cdn.jsdelivr.net/gh/lizhangjie316/img/2020/20201118191537.png)
 
 
 

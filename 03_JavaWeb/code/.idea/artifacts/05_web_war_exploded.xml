@@ -1,0 +1,21 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="05_web:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/05_web_war_exploded</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="05_web" />
+          <element id="module-output" name="05_web2" />
+          <element id="module-output" name="05_xml" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="commons_lib" />
+          <element id="library" level="module" name="dom4j-1.6.1" module-name="05_xml" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="05_web/web/Web" />
+      <element id="javaee-facet-resources" facet="05_web2/web/Web" />
+      <element id="javaee-facet-resources" facet="05_xml/web/Web" />
+    </root>
+  </artifact>
+</component>
