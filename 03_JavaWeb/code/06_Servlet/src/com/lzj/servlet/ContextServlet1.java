@@ -1,0 +1,30 @@
+package com.lzj.servlet;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+
+/**
+* @author: keen
+* @Date: 2020/11/16 13:52
+* @Description: ServletContext 像 Map 一样存取数据
+*/
+@WebServlet(name = "ContextServlet1")
+public class ContextServlet1 extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ServletContext context = getServletContext();
+        System.out.println(context);
+        System.out.println("保存之前: Context 获取 key1 的值是:"+ context.getAttribute("key1"));
+        context.setAttribute("key1","value1");
+        System.out.println(" Context 获取域对象 key1 的值是:"+ context.getAttribute("key1"));
+    }
+}
